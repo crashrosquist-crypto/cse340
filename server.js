@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -48,8 +49,12 @@ app.get('/organizations', async (req, res) => {
 });
 
 app.get('/projects', async (req, res) => {
-    const title = 'Service Projects';
-    res.render('projects', { title });
+  const projectData = await getAllProjects();
+
+  res.render('projects', {
+    title: 'Service Projects',
+    projects: projectData
+  });
 });
 
 app.listen(PORT, async () => {
@@ -61,3 +66,4 @@ app.listen(PORT, async () => {
     console.error('Error connecting to the database:', error);
   }
 });
+

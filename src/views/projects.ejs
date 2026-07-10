@@ -3,9 +3,18 @@
     <h1><%= title %></h1>
     <h2>Upcoming Service Projects</h2>
 <ul>
-    <li>Park Cleanup - Join us to clean up local parks and make them beautiful!</li>
-    <li>Food Drive - Help collect and distribute food to those in need.</li>
-    <li>Community Tutoring - Volunteer to tutor students in various subjects.</li>
-</ul>
+        <% projects.forEach(project => { %>
+            <li>
+                <!-- 1. Format the date cleanly -->
+                <%= new Date(project.service_project_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>: 
+                
+                <!-- 2. Display the Project Title -->
+                <strong><%= project.service_project_title %></strong> 
+                
+                <!-- 3. Display the Organization Name -->
+                (<em><%= project.organization_name %></em>)
+            </li>
+        <% }) %>
+    </ul>
 </main>
 <%- include('partials/footer') %>
