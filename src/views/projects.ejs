@@ -1,20 +1,23 @@
 <%- include('partials/header') %>
+
 <main>
-    <h1><%= title %></h1>
-    <h2>Upcoming Service Projects</h2>
-<ul>
-        <% projects.forEach(project => { %>
-            <li>
-                <!-- 1. Format the date cleanly -->
-                <%= new Date(project.service_project_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>: 
-                
-                <!-- 2. Display the Project Title -->
-                <strong><%= project.service_project_title %></strong> 
-                
-                <!-- 3. Display the Organization Name -->
-                (<em><%= project.organization_name %></em>)
-            </li>
-        <% }) %>
-    </ul>
+  <h1><%= title %></h1>
+  
+  <ul class="projects-list">
+    <% projects.forEach(project => { %>
+      <li>
+        <!-- Link to the individual project details -->
+        <a href="/project/<%= project.service_project_id %>" class="project-title">
+          <strong><%= project.title %></strong>
+        </a> 
+        - 
+        <!-- Link to the organization details -->
+        <a href="/organization/<%= project.organization_id %>" class="organization-link">
+          <%= project.organization_name %>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
 </main>
+
 <%- include('partials/footer') %>
