@@ -4,12 +4,17 @@
     <h1><%= title %></h1>
 
     <h2>Welcome to the CSE 340 Service Network!</h2>
-    <p>The following categories are as shown. </p>
+    <p>The following categories are as shown:</p>
+    
+    <!-- 1. Wrapped the loop inside a <ul> tag so the browser lists them properly -->
     <ul>
-        <li>Environmental</li>
-        <li>Educational</li>
-        <li>Community Service</li>
-        <li>Health and Wellness</li>
+        <% categories.forEach(category => { %>
+            <li>
+                <a href="/category/<%= category.category_id %>">
+                    <%= category.category_name %>
+                </a>
+            </li>
+        <% }) %>
     </ul>
 
     <img class="main-logo" src="images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
