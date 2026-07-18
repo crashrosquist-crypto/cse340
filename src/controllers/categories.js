@@ -17,7 +17,7 @@ const showCategoryDetailsPage = async (req, res) => {
     const title = `${category.category_name} Projects`;
 
     res.render('category-details', { title, category, projects});
-}
+};
 
 // Export any controller functions
 export { showCategoriesPage, showCategoryDetailsPage };

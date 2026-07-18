@@ -3,6 +3,7 @@
 <main>
     <h1><%= category.category_name %> Projects</h1>
 
+
     <ul>
         <% projects.forEach(project => { %>
             <li>
@@ -10,7 +11,6 @@
                     <%= project.service_project_title %>
                 </a>
             </li>
-
         <% }) %>
     </ul>
 </main>

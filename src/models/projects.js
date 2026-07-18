@@ -25,7 +25,7 @@ const getProjectsByOrganizationId = async (organizationId) => {
     SELECT
       service_project_id,
       organization_id,
-      service_project_title AS title,
+      service_project_title AS service_project_title,
       service_project_description AS description, -- Added prefix & aliased
       service_project_location AS location,       -- Added prefix & aliased
       service_project_date AS date                 -- Added prefix & aliased
@@ -44,7 +44,7 @@ const getUpcomingProjects = async (number_of_projects) => {
     const query = `
     SELECT
       service_project_id,
-      service_project_title AS title,
+      service_project_title AS service_project_title,
       service_project_description AS description,
       service_project_date AS date,
       service_project_location AS location,
@@ -64,7 +64,7 @@ const getProjectDetails = async (id) => {
     const query = `
     SELECT
       service_project_id,
-      service_project_title AS title,
+      service_project_title AS service_project_title,
       service_project_description AS description,
       service_project_date AS date,
       service_project_location AS location,

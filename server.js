@@ -52,9 +52,8 @@ app.use(router);
 
 // Catch-all route for 404 errors
 app.use((req, res, next) => {
-    const err = new Error('Page Not Found');
-    err.status = 404;
-    next(err);
+    res.locals.NODE_ENV = NODE_ENV;
+    next();
 });
 
 // Global error handler
