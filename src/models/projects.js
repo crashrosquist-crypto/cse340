@@ -87,7 +87,7 @@ const createProject = async (title, description, location, date, organizationId)
   `;
 
   const queryParams = [organizationId, title, description, location, date];
-  const results = await db.query(query, queryParams);
+  const result = await db.query(query, queryParams);
 
   if (result.rows.length === 0) {
     throw new Error('Failed to create project');
@@ -97,4 +97,4 @@ const createProject = async (title, description, location, date, organizationId)
 };
 
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails }
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject }
