@@ -21,27 +21,16 @@
                 id="service_project_description" 
                 name="service_project_description" 
                 rows="4" 
-                required><%= project.service_project_description %></textarea>
+                required><%= project.description %></textarea>
         </div>
 
         <div>
-            <label for="service_project_start_date">Start Date:</label>
+            <label for="service_project_date">Date:</label>
             <input 
                 type="date" 
-                id="service_project_start_date" 
-                name="service_project_start_date" 
-                value="<%= new Date(project.service_project_start_date).toISOString().split('T')[0] %>" 
-                required 
-            />
-        </div>
-
-        <div>
-            <label for="service_project_end_date">End Date:</label>
-            <input 
-                type="date" 
-                id="service_project_end_date" 
-                name="service_project_end_date" 
-                value="<%= new Date(project.service_project_end_date).toISOString().split('T')[0] %>" 
+                id="service_project_date" 
+                name="service_project_date" 
+                value="<%= project.date ? new Date(project.date).toISOString().split('T')[0] : '' %>" 
                 required 
             />
         </div>
@@ -52,7 +41,7 @@
                 type="text" 
                 id="service_project_location" 
                 name="service_project_location" 
-                value="<%= project.service_project_location %>" 
+                value="<%= project.location %>" 
                 required 
             />
         </div>
@@ -63,8 +52,8 @@
                 <% organizations.forEach(org => { %>
                     <option 
                         value="<%= org.organization_id %>" 
-                        <%= org.organization_id === project.organization_id ? 'selected' : '' %>>
-                        <%= org.organization_name %>
+                        <%= Number(org.organization_id) === Number(project.organization_id) ? 'selected' : '' %>>
+                        <%= org.organization_name || org.name %>
                     </option>
                 <% }); %>
             </select>

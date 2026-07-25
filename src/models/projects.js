@@ -100,31 +100,28 @@ const createProject = async (title, description, location, date, organizationId)
  * Updates an existing service project in the database.
  */
 const updateProject = async (
-    service_project_id,
     service_project_title,
     service_project_description,
-    service_project_start_date,
-    service_project_end_date,
+    service_project_date,
     service_project_location,
-    organization_id
+    organization_id,
+    service_project_id
 ) => {
     const query = `
-        UPDATE service_projects
+        UPDATE service_project
         SET service_project_title = $1,
             service_project_description = $2,
-            service_project_start_date = $3,
-            service_project_end_date = $4,
-            service_project_location = $5,
-            organization_id = $6
-        WHERE service_project_id = $7
+            service_project_date = $3,
+            service_project_location = $4,
+            organization_id = $5
+        WHERE service_project_id = $6
         RETURNING *;
     `;
 
     const values = [
         service_project_title,
         service_project_description,
-        service_project_start_date,
-        service_project_end_date,
+        service_project_date,
         service_project_location,
         organization_id,
         service_project_id

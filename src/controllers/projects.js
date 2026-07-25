@@ -36,7 +36,7 @@ const showProjectsPage = async (req, res) => {
     const title = 'Upcoming Service Projects';
 
     res.render('projects', { title, projects });
-};  
+};
 
 const showProjectDetailsPage = async (req, res) => {
     try {
@@ -44,11 +44,11 @@ const showProjectDetailsPage = async (req, res) => {
         const projectDetails = await getProjectDetails(projectId);
         const projectCategories = await getCategoriesByProjectId(projectId);
         const title = 'Project Details';
-        
-        res.render('project', { 
-            title, 
+
+        res.render('project', {
+            title,
             project: projectDetails,
-            categories: projectCategories 
+            categories: projectCategories
         });
     } catch (error) {
         console.error("showProjectDetailsPage error:", error);
@@ -60,7 +60,7 @@ const showNewProjectForm = async (req, res) => {
     const organizations = await getAllOrganizations();
     const title = 'Add New Service Project';
 
-    res.render('new-project', {title, organizations});
+    res.render('new-project', { title, organizations });
 
 };
 
@@ -89,10 +89,10 @@ const processNewProjectForm = async (req, res) => {
 
 const showEditProjectForm = async (req, res) => {
     const projectId = req.params.id;
-    
+
     const project = await getProjectDetails(projectId);
     const organizations = await getAllOrganizations();
-    
+
     res.render('edit-project', {
         title: 'Edit Project',
         project,
@@ -105,27 +105,28 @@ const processEditProjectForm = async (req, res) => {
     const {
         service_project_title,
         service_project_description,
-        service_project_start_date,
-        service_project_end_date,
+        service_project_date,
         service_project_location,
         organization_id
     } = req.body;
 
     await updateProject(
-        projectId,
-        service_project_title,
-        service_project_description,
-        service_project_start_date,
-        service_project_end_date,
-        service_project_location,
-        organization_id
+        service_project_title,          
+        service_project_description,   
+        service_project_date,           
+        service_project_location,       
+        organization_id,                
+        projectId                    
     );
 
+    req.flash('success', 'Project updated successfully!');
+    
     res.redirect(`/project/${projectId}`);
 };
 
 
 
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation,
+export {
+    showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation,
     processEditProjectForm, showEditProjectForm
- };
+};
