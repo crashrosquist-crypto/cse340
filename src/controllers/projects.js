@@ -1,4 +1,4 @@
-import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject } from '../models/projects.js';
+import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
@@ -87,6 +87,45 @@ const processNewProjectForm = async (req, res) => {
     }
 };
 
+const showEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+    
+    const project = await getProjectDetails(projectId);
+    const organizations = await getAllOrganizations();
+    
+    res.render('edit-project', {
+        title: 'Edit Project',
+        project,
+        organizations
+    });
+};
+
+const processEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+    const {
+        service_project_title,
+        service_project_description,
+        service_project_start_date,
+        service_project_end_date,
+        service_project_location,
+        organization_id
+    } = req.body;
+
+    await updateProject(
+        projectId,
+        service_project_title,
+        service_project_description,
+        service_project_start_date,
+        service_project_end_date,
+        service_project_location,
+        organization_id
+    );
+
+    res.redirect(`/project/${projectId}`);
+};
 
 
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation };
+
+export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation,
+    processEditProjectForm, showEditProjectForm
+ };

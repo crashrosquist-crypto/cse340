@@ -62,5 +62,6 @@ const deleteQuery = `
     }
 };
 
+
 export { getAllCategories, getCategoryById, getProjectsByCategoryId, getCategoriesByProjectId, updateCategoryAssignments }
 
