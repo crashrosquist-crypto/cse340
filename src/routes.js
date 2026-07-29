@@ -1,5 +1,10 @@
 import express from 'express';
 
+import { showUserRegistrationForm, 
+    processUserRegistrationForm 
+
+} from './controllers/users.js';
+
 // Controllers & Validation Imports
 import { showHomePage } from './controllers/index.js';
 import { 
@@ -73,6 +78,10 @@ router.post('/new-category', categoryValidation, processNewCategoryForm);
 
 router.get('/edit-category/:id', showEditCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
 // --- Error Handling Test Route ---
 router.get('/test-error', testErrorPage);
