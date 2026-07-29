@@ -1,7 +1,8 @@
 import express from 'express';
 
 import { showUserRegistrationForm, 
-    processUserRegistrationForm 
+    processUserRegistrationForm, showLoginForm,
+    processLoginForm, processLogout 
 
 } from './controllers/users.js';
 
@@ -82,6 +83,11 @@ router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 // User registration routes
 router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
+
+// User login routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 
 // --- Error Handling Test Route ---
 router.get('/test-error', testErrorPage);
