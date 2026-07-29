@@ -19,7 +19,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-
 // Set up session management
 app.use(session({
     secret: SESSION_SECRET,
@@ -48,15 +47,21 @@ app.set('view engine', 'ejs');
 // Tell Express where to find your templates
 app.set('views', path.join(__dirname, 'src/views'));
 
-app.use((req, res, next) =>{
-  if (NODE_ENV === 'development'){
-      console.log(`${req.method} ${req.url}`);
-  }
-  next();
+// Request logging middleware (Development mode)
+app.use((req, res, next) => {
+    if (NODE_ENV === 'development') {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next();
 });
 
-// Middleware to make NODE_ENV available to all templates
+// Middleware to make variables available to all EJS templates (Step 5)
 app.use((req, res, next) => {
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
+
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
@@ -66,13 +71,11 @@ app.use((req, res, next) => {
   */
 app.use(router);
 
-// Test route for 500 errors
-
-
-// Catch-all route for 404 errors
+// Catch-all route for 404 errors (triggers global error handler)
 app.use((req, res, next) => {
-    res.locals.NODE_ENV = NODE_ENV;
-    next();
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // Global error handler
@@ -97,12 +100,11 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, async () => {
-  try {
-    await testConnection();
-    console.log(`Server is running at http://127.0.0.1:${PORT}`);
-    console.log(`Environment: ${NODE_ENV}`);
-  } catch (error) {
-    console.error('Error connecting to the database:', error);
-  }
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });
-
