@@ -2,22 +2,49 @@
 
 <main>
   <h1><%= project.service_project_title %></h1>
-<div class="project-tags">
-    <h3>Category Tags:</h3>
-    <ul>
-        <% categories.forEach(category => { %>
-            <li>
-                <a href="/category/<%= category.category_id %>" class="tag-button">
-                    <%= category.category_name %>
-                </a>
-            </li>
-        <% }) %>
-    </ul>
+
+  <!-- Project Details Section -->
+  <section class="project-details">
+    <p><strong>Description:</strong> <%= project.description %></p>
+
     <p>
-        <a href="/assign-categories/<%= project.service_project_id %>" class="tag-button">Edit Categories</a>
-        <a href="/edit-project/<%= project.service_project_id %>" class="btn">Edit Project</a>
+      <strong>Sponsoring Organization:</strong>
+      <a href="/organization/<%= project.organization_id %>" class="organization-link">
+        <%= project.organization_name %>
+      </a>
     </p>
-</div>
+
+    <% if (project.location) { %>
+      <p><strong>Location:</strong> <%= project.location %></p>
+    <% } %>
+
+    <% if (project.date) { %>
+      <p><strong>Date:</strong> <%= new Date(project.date).toLocaleDateString() %></p>
+    <% } %>
+  </section>
+
+  <!-- Categories Section -->
+  <div class="project-tags">
+    <h3>Category Tags:</h3>
+    <% if (categories && categories.length > 0) { %>
+      <ul>
+        <% categories.forEach(category => { %>
+          <li>
+            <a href="/category/<%= category.category_id %>" class="tag-button">
+              <%= category.category_name %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No categories assigned yet.</p>
+    <% } %>
+
+    <p>
+      <a href="/assign-categories/<%= project.service_project_id %>" class="tag-button">Edit Categories</a>
+      <a href="/edit-project/<%= project.service_project_id %>" class="btn">Edit Project</a>
+    </p>
+  </div>
 </main>
 
 <%- include('partials/footer') %>
