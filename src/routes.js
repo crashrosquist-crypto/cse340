@@ -8,7 +8,8 @@ import {
     processLogout, 
     requireLogin, 
     showDashboard,
-    requireRole 
+    requireRole,
+    showUsersView 
 } from './controllers/users.js';
 
 // Controllers & Validation Imports
@@ -96,6 +97,9 @@ router.get('/logout', processLogout);
 
 // --- Dashboard ---
 router.get('/dashboard', requireLogin, showDashboard);
+
+// --- Admin Only Routes: Users ---
+router.get('/users', requireRole('admin'), showUsersView);
 
 // --- Error Handling Test Route ---
 router.get('/test-error', testErrorPage);

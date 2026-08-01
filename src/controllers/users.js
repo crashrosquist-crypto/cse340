@@ -1,27 +1,45 @@
 import bcrypt from 'bcrypt';
 
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+
+const showUsersView = async (req, res, next) => {
+    try {
+        const users = await getAllUsers();
+
+        res.render('users', {
+            title: 'Registered Users', users
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        next(error);
+    }
+};
 
 const showUserRegistrationForm = (req, res) => {
-    res.render('register', {title: 'Register'});
+    res.render('register', { title: 'Register' });
 };
 
 const showLoginForm = (req, res) => {
-    res.render('login', {title: 'Login'});
+    res.render('login', { title: 'Login' });
 };
 
-const processLoginForm = async (req, res) =>  {
+const processLoginForm = async (req, res) => {
     const { email, password } = req.body;
-    try{
-        
+    try {
+
         const user = await authenticateUser(email, password);
 
         if (user) {
             req.session.user = user;
 
+            // --- DEBUG LOG ---
+            console.log('--- SESSION USER SAVED ---');
+            console.log(req.session.user);
+            // ----------------
+
             req.flash('success', 'Login successful!');
 
-            if (res.locals.NODE_ENV === 'development'){
+            if (res.locals.NODE_ENV === 'development') {
                 console.log('User logged in:', user);
             }
             res.redirect('/dashboard');
@@ -57,7 +75,7 @@ const processUserRegistrationForm = async (req, res) => {
         req.flash('success', 'Registration successful! Please log in.');
         res.redirect('/');
     } catch (error) {
-        console.error ('Error registering user:', error);
+        console.error('Error registering user:', error);
         req.flash('error', 'An error occured during registration. Please try again.');
         res.redirect('/register');
     }
@@ -79,7 +97,7 @@ const requireRole = (role) => {
         }
         if (req.session.user.role_name !== role) {
             req.flash('error', 'You do not have permission to access this page.');
-            return res.redirect('/');
+            return res.redirect('/dashboard');
         }
         next();
     };
@@ -87,11 +105,11 @@ const requireRole = (role) => {
 
 const showDashboard = (req, res) => {
     const user = req.session.user;
-    res.render('dashboard', { 
+    res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
         email: user.email
     });
 };
 
-export { showUserRegistrationForm, processUserRegistrationForm, processLogout, showLoginForm, processLoginForm, requireLogin, showDashboard, requireRole };
+export { showUserRegistrationForm, showUsersView, processUserRegistrationForm, processLogout, showLoginForm, processLoginForm, requireLogin, showDashboard, requireRole };
