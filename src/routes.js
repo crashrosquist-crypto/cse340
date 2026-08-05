@@ -31,7 +31,9 @@ import {
     processNewProjectForm, 
     projectValidation,
     showEditProjectForm, 
-    processEditProjectForm 
+    processEditProjectForm,
+    processVolunteer,
+    processUnvolunteer 
 } from './controllers/projects.js';
 
 import { 
@@ -100,6 +102,10 @@ router.get('/dashboard', requireLogin, showDashboard);
 
 // --- Admin Only Routes: Users ---
 router.get('/users', requireRole('admin'), showUsersView);
+
+// Volunteer / Unvolunteer routes (protected by requireLogin)
+router.post('/project/:id/volunteer', requireLogin, processVolunteer);
+router.post('/project/:id/unvolunteer', requireLogin, processUnvolunteer);
 
 // --- Error Handling Test Route ---
 router.get('/test-error', testErrorPage);

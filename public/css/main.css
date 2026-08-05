@@ -229,6 +229,101 @@ footer {
 }
 
 /* ==========================================================================
+   VOLUNTEER SECTION & BUTTON STYLES
+   ========================================================================== */
+.volunteer-section {
+    margin: 2rem auto;            /* Center the box horizontally */
+    padding: 1.25rem;             /* Reduced inner white space */
+    max-width: 400px;             /* Keeps the card compact instead of stretching full-width */
+    text-align: center;           /* Centers the button and text inside */
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-border);
+}
+
+.volunteer-section form {
+    display: inline-block;        /* Ensures the form wraps tightly around the button */
+}
+
+/* Common Button Styles */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Primary "Volunteer" Action Button */
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--white);
+    box-shadow: 0 2px 4px rgba(49, 151, 149, 0.3);
+    width: 100%;                  /* Makes the button fill the compact 400px card nicely */
+    max-width: 250px;             /* Prevents it from getting absurdly huge */
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #287a78;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(49, 151, 149, 0.4);
+}
+
+/* Danger / Cancel Action Button */
+.btn-danger {
+    background-color: #e53e3e;
+    color: var(--white);
+    box-shadow: 0 2px 4px rgba(229, 62, 62, 0.2);
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background-color: #c53030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
+}
+
+/* Warning / Remove Action Button (For Dashboard) */
+.btn-warning {
+    background-color: #dd6b20;
+    color: var(--white);
+}
+
+.btn-warning:hover, .btn-warning:focus {
+    background-color: #c05621;
+    transform: translateY(-2px);
+}
+
+/* Volunteering Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.status-badge.success {
+    background-color: #c6f6d5;
+    color: #22543d;
+    border-left: 4px solid #38a169;
+}
+
+/* Admin Controls Container */
+.admin-controls {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-border);
+    display: flex;
+    gap: 1rem;
+}
+
+/* ==========================================================================
    RESPONSIVE LAYOUT OPTIMIZATIONS (Desktop)
    ========================================================================== */
 @media (min-width: 768px) {

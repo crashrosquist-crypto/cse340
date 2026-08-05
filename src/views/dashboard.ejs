@@ -6,11 +6,41 @@
     <h2>Dashboard</h2>
     <p>Name: <%= name %></p>
     <p>Username: <%= email %></p>
+
     <div>
         <% if (user && user.role_name === 'admin') { %>
-  <p><a href="/users">Manage Registered Users</a></p>
+            <p><a href="/users">Manage Registered Users</a></p>
         <% } %>
     </div>
+
+    <!-- Volunteered Projects Section -->
+    <section class="volunteered-projects">
+        <h2>My Volunteered Projects</h2>
+
+        <% if (volunteeredProjects && volunteeredProjects.length > 0) { %>
+            <ul class="project-list">
+                <% volunteeredProjects.forEach(project => { %>
+                    <li class="project-card">
+                        <h3>
+                            <a href="/project/<%= project.service_project_id %>">
+                                <%= project.service_project_title %>
+                            </a>
+                        </h3>
+                        <p><strong>Organization:</strong> <%= project.organization_name %></p>
+                        <p><strong>Location:</strong> <%= project.service_project_location %></p>
+                        <p><strong>Date:</strong> <%= new Date(project.service_project_date).toLocaleDateString() %></p>
+                        
+                        <form action="/project/<%= project.service_project_id %>/unvolunteer" method="POST">
+                            <button type="submit" class="btn btn-warning">Remove Signup</button>
+                        </form>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>You haven't signed up for any service projects yet!</p>
+            <p><a href="/projects" class="btn btn-primary">Browse Projects</a></p>
+        <% } %>
+    </section>
 
 </main>
 

@@ -1,5 +1,65 @@
 import db from './db.js'
 
+
+
+
+// -----------------------------------------------------VOLUNTEER SCRIPTS------------------------------------------------
+// Add a user as a volunteer
+ const addVolunteer = async (userId, projectId) => {
+    const query = `
+        INSERT INTO project_volunteers (user_id, project_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id, project_id) DO NOTHING;
+        `;
+        await db.query(query, [userId, projectId]);
+ };
+// Removes a user as a volunteer from a specific project. 
+
+const removeVolunteer = async (userId, projectId) => {
+    const query = `
+    DELETE FROM project_volunteers
+    WHERE user_id = $1 AND project_id = $2;
+    `;
+    await db.query(query, [userId, projectId]);
+};
+// Checks if user is volunteering for a project. Returns true or false.
+const isUserVolunteering = async (userId, projectId) => {
+    const query = `
+    SELECT 1
+    FROM project_volunteers
+    WHERE user_id = $1 AND project_id = $2;
+    `;
+    const result = await db.query(query, [userId, projectId]);
+    return result.rows.length > 0;
+};
+
+const getVolunteeredProjectsForUser = async (userId) => {
+    const query = `
+        SELECT 
+            p.service_project_id,
+            p.service_project_title,
+            p.service_project_description,
+            p.service_project_location,
+            p.service_project_date,
+            o.name AS organization_name
+        FROM project_volunteers pv
+        INNER JOIN service_project p ON pv.project_id = p.service_project_id
+        INNER JOIN organization o ON p.organization_id = o.organization_id
+        WHERE pv.user_id = $1
+        ORDER BY p.service_project_date ASC;
+    `;
+    const result = await db.query(query, [userId]);
+    return result.rows;
+}; 
+
+// ---------------------------------------  VOLUNTEER SCRIPTS  ----------------------------------------
+
+
+
+
+
+
+
 const getAllProjects = async() => {
     const query = `
         SELECT 
@@ -137,4 +197,15 @@ const updateProject = async (
 };
 
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject }
+export { 
+    getAllProjects, 
+    getProjectsByOrganizationId, 
+    getUpcomingProjects, 
+    getProjectDetails, 
+    createProject, 
+    updateProject,
+    addVolunteer,
+    removeVolunteer,
+    isUserVolunteering,
+    getVolunteeredProjectsForUser
+}

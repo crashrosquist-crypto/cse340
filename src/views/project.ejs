@@ -39,15 +39,33 @@
     <% } else { %>
       <p>No categories assigned yet.</p>
     <% } %>
-
-    <p>
-<% if (user && user.role_name === 'admin') { %>
-      <a href="/assign-categories/<%= project.service_project_id %>" class="tag-button">Edit Categories</a>
-      
-      <a href="/edit-project/<%= project.service_project_id %>" class="btn">Edit Project</a>
-<% } %>
-    </p>
   </div>
+
+  <!-- Volunteer Action Section -->
+  <div class="volunteer-section">
+    <% if (user) { %>
+      <% if (isVolunteering) { %>
+        <p class="status-badge success">You are currently signed up to volunteer for this project!</p>
+        <form action="/project/<%= project.service_project_id %>/unvolunteer" method="POST">
+          <button type="submit" class="btn btn-danger">Cancel Volunteering</button>
+        </form>
+      <% } else { %>
+        <form action="/project/<%= project.service_project_id %>/volunteer" method="POST">
+          <button type="submit" class="btn btn-primary">Volunteer for this Project</button>
+        </form>
+      <% } %>
+    <% } else { %>
+      <p><a href="/login">Log in</a> to volunteer for this project!</p>
+    <% } %>
+  </div>
+
+  <!-- Admin Controls -->
+  <% if (user && user.role_name === 'admin') { %>
+    <div class="admin-controls">
+      <a href="/assign-categories/<%= project.service_project_id %>" class="tag-button">Edit Categories</a>
+      <a href="/edit-project/<%= project.service_project_id %>" class="btn">Edit Project</a>
+    </div>
+  <% } %>
 </main>
 
 <%- include('partials/footer') %>
